@@ -44,7 +44,16 @@ mod tests {
     }
 
     #[test]
-    fn simpler_test() {
+    fn fails_with_wrong_data() {
+        fun_name(2i64, 4);
+    }
+
+    #[test]
+    fn works_with_correct_data() {
+        fun_name(0, 2);
+    }
+
+    fn fun_name(start: i64, end: i64) {
         let values = Arc::new(StringViewArray::from(vec![
             Some("foo"),
             Some("bar"),
@@ -53,7 +62,7 @@ mod tests {
         ]));
         let list_arr = LargeListArray::new(
             Field::new("name", DataType::Utf8View, true).into(),
-            OffsetBuffer::new(vec![2i64, 4].into()),
+            OffsetBuffer::new(vec![start, end].into()),
             values,
             None,
         );
